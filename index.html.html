@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ananya N — Cybersecurity Portfolio</title>
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --navy2: #0f172a;
+    --card: #111827;
+    --border: #1e293b;
+    --teal: #2dd4bf;
+    --teal-dim: #0f766e;
+    --teal-glow: rgba(45, 212, 191, 0.08);
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --mono: 'Courier New', Courier, monospace;
+    --sans: 'Segoe UI', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--navy); color: var(--text); font-family: var(--sans); line-height: 1.7; }
+  a { color: var(--teal); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,15,30,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+  .nav-logo { font-family: var(--mono); font-size: 14px; color: var(--teal); letter-spacing: 0.05em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); text-decoration: none; }
+
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 6rem 2rem 4rem; max-width: 900px; margin: 0 auto; }
+  .terminal-window { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .terminal-bar { background: #1e2940; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-red { background: #ef4444; } .dot-yellow { background: #f59e0b; } .dot-green { background: #22c55e; }
+  .terminal-title { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-left: 8px; }
+  .terminal-body { padding: 2rem; font-family: var(--mono); }
+  .terminal-line { font-size: 14px; margin-bottom: 6px; }
+  .prompt { color: var(--teal); } .cmd { color: #e2e8f0; } .output { color: var(--muted); }
+  .hero-name { font-family: var(--sans); font-size: clamp(2.2rem, 6vw, 4rem); font-weight: 700; color: #f8fafc; margin: 1.5rem 0 0.5rem; letter-spacing: -0.02em; line-height: 1.1; }
+  .hero-name span { color: var(--teal); }
+  .hero-tagline { font-size: 1.1rem; color: var(--muted); margin-bottom: 2rem; max-width: 520px; }
+  .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+  .badge { font-family: var(--mono); font-size: 12px; padding: 4px 12px; border: 1px solid var(--teal-dim); border-radius: 4px; color: var(--teal); background: var(--teal-glow); letter-spacing: 0.05em; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary { background: var(--teal); color: var(--navy); padding: 10px 24px; border-radius: 6px; font-weight: 600; font-size: 14px; transition: opacity 0.2s; display: inline-block; }
+  .btn-primary:hover { opacity: 0.85; text-decoration: none; }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); padding: 10px 24px; border-radius: 6px; font-size: 14px; transition: border-color 0.2s; display: inline-block; }
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal); text-decoration: none; }
+  .cursor { display: inline-block; width: 8px; height: 16px; background: var(--teal); margin-left: 2px; vertical-align: middle; animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  section { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
+  .section-label { font-family: var(--mono); font-size: 12px; color: var(--teal); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; color: #f8fafc; margin-bottom: 1rem; letter-spacing: -0.02em; }
+  .divider { width: 40px; height: 2px; background: var(--teal); margin-bottom: 2.5rem; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .about-text p { color: var(--muted); margin-bottom: 1rem; font-size: 15px; }
+  .about-text p span { color: var(--text); }
+
+  .volunteer-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-left: 3px solid var(--teal); border-radius: 8px; padding: 1.25rem;
+  }
+  .volunteer-title { font-size: 14px; font-weight: 600; color: #f8fafc; margin-bottom: 4px; }
+  .volunteer-desc { font-size: 13px; color: var(--muted); }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; transition: border-color 0.2s; }
+  .skill-card:hover { border-color: var(--teal-dim); }
+  .skill-icon { font-size: 22px; margin-bottom: 0.75rem; }
+  .skill-name { font-size: 14px; font-weight: 600; color: #f8fafc; margin-bottom: 0.5rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-tag { font-family: var(--mono); font-size: 11px; color: var(--muted); background: rgba(100,116,139,0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); }
+
+  .projects-grid { display: grid; gap: 1.5rem; }
+  .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem 1.75rem; transition: border-color 0.2s; display: grid; grid-template-columns: 1fr auto; gap: 1rem; }
+  .project-card:hover { border-color: var(--teal-dim); }
+  .project-type { font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .project-name { font-size: 17px; font-weight: 600; color: #f8fafc; margin-bottom: 6px; }
+  .project-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+  .project-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-family: var(--mono); font-size: 11px; padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border); color: var(--muted); }
+  .project-links { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; flex-shrink: 0; }
+  .link-btn { font-size: 12px; color: var(--teal); border: 1px solid var(--teal-dim); padding: 5px 12px; border-radius: 4px; background: var(--teal-glow); white-space: nowrap; transition: opacity 0.2s; }
+  .link-btn:hover { opacity: 0.8; text-decoration: none; }
+
+  .ctf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .ctf-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; }
+  .ctf-platform { font-family: var(--mono); font-size: 13px; color: var(--teal); font-weight: 600; margin-bottom: 4px; }
+  .ctf-handle { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .ctf-rank { font-family: var(--mono); font-size: 11px; color: var(--muted); background: rgba(100,116,139,0.1); padding: 3px 10px; border-radius: 4px; display: inline-block; }
+
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+  .cert-card { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--teal); border-radius: 8px; padding: 1.25rem; }
+  .cert-name { font-size: 14px; font-weight: 600; color: #f8fafc; margin-bottom: 4px; }
+  .cert-org { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .cert-status { font-family: var(--mono); font-size: 11px; color: var(--teal); background: var(--teal-glow); border: 1px solid var(--teal-dim); padding: 2px 8px; border-radius: 4px; display: inline-block; }
+  .cert-status.pursuing { color: #f59e0b; background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+  .contact-intro { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 12px; }
+  .contact-link { display: flex; align-items: center; gap: 12px; color: var(--text); font-size: 14px; transition: color 0.2s; }
+  .contact-link:hover { color: var(--teal); text-decoration: none; }
+  .contact-icon { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .contact-form-block { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.75rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 12px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+  .form-group input, .form-group textarea { width: 100%; background: var(--navy2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: 14px; color: var(--text); font-family: var(--sans); resize: vertical; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--teal-dim); }
+  .form-group textarea { min-height: 100px; }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  footer span { color: var(--teal); }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 1rem; } .nav-links { gap: 1rem; }
+    .hero, section { padding-left: 1rem; padding-right: 1rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-links { flex-direction: row; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">~/ananya-n</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#ctf">CTF</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div style="width:100%">
+    <div class="terminal-window">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <span class="terminal-title">bash — ~/ananya-n</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line"><span class="prompt">$ </span><span class="cmd" id="typed"></span><span class="cursor" id="cursor"></span></div>
+        <div class="terminal-line output" id="output" style="display:none">
+          Loading profile... <span style="color:#22c55e">✓ done</span>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="hero-name" style="margin-top:2rem">Hi, I'm <span>Ananya N</span></h1>
+    <p class="hero-tagline">Aspiring Pentester based in Bengaluru — breaking things ethically so others don't have to deal with the aftermath.</p>
+
+    <div class="hero-badges">
+      <span class="badge">web appsec</span>
+      <span class="badge">mobile security</span>
+      <span class="badge">pen testing</span>
+      <span class="badge">ctf player</span>
+      <span class="badge">owasp</span>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">// 01</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="divider"></div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm <span>Ananya N</span>, a cybersecurity enthusiast from Bengaluru with a passion for finding vulnerabilities before the bad guys do. I specialise in web and mobile application security, with hands-on experience in penetration testing across real-world SaaS and mobile platforms.</p>
+      <p>I've worked on everything from <span>SQL injection and XSS</span> to <span>certificate pinning bypasses and IDOR</span> on Android apps. I document every finding with industry-standard CVSS scoring and OWASP mappings — because a good pentest isn't just about finding bugs, it's about communicating them clearly.</p>
+      <p>When I'm not hunting for vulnerabilities, you'll find me on <span>HackTheBox and TryHackMe</span>, sharpening my skills one challenge at a time — or out feeding the 20 stray dogs in my neighbourhood, because protecting the vulnerable applies offline too.</p>
+
+      <div style="margin-top:1.5rem">
+        <div class="volunteer-card">
+          <div class="volunteer-title">🐾 Community Volunteer — Animal Welfare</div>
+          <div class="volunteer-desc">Feeds and cares for 20 stray dogs daily in Bengaluru. Because compassion doesn't clock out.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="background:var(--card); border:1px solid var(--border); border-radius:8px; padding:1.5rem;">
+        <div style="font-family:var(--mono); font-size:12px; color:var(--teal); letter-spacing:0.1em; margin-bottom:1rem;">QUICK INFO</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:14px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+            <span style="color:var(--muted)">Location</span>
+            <span>Bengaluru, India</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:14px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+            <span style="color:var(--muted)">Focus</span>
+            <span>Web &amp; Mobile Pentesting</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:14px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+            <span style="color:var(--muted)">Education</span>
+            <span>PG Cybersecurity, IIT Bengaluru</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:14px; border-bottom:1px solid var(--border); padding-bottom:8px;">
+            <span style="color:var(--muted)">HTB Handle</span>
+            <span style="color:var(--teal)">Ghostknight753</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:14px;">
+            <span style="color:var(--muted)">Status</span>
+            <span style="color:#22c55e">Open to opportunities</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="padding-top:0">
+  <div class="section-label">// 02</div>
+  <h2 class="section-title">Skills &amp; Tools</h2>
+  <div class="divider"></div>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🔍</div>
+      <div class="skill-name">Web Application Testing</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Burp Suite</span>
+        <span class="skill-tag">OWASP Top 10</span>
+        <span class="skill-tag">SQLi</span>
+        <span class="skill-tag">XSS</span>
+        <span class="skill-tag">CSRF</span>
+        <span class="skill-tag">IDOR</span>
+        <span class="skill-tag">Input Validation</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📱</div>
+      <div class="skill-name">Mobile Security</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Android</span>
+        <span class="skill-tag">Frida</span>
+        <span class="skill-tag">Objection</span>
+        <span class="skill-tag">APKTool</span>
+        <span class="skill-tag">Cert Pinning Bypass</span>
+        <span class="skill-tag">Flutter Apps</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">⚙️</div>
+      <div class="skill-name">Recon &amp; Enumeration</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Nmap</span>
+        <span class="skill-tag">Gobuster</span>
+        <span class="skill-tag">Nikto</span>
+        <span class="skill-tag">Subfinder</span>
+        <span class="skill-tag">Shodan</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">📝</div>
+      <div class="skill-name">Reporting &amp; Standards</div>
+      <div class="skill-tags">
+        <span class="skill-tag">CVSS v3.1</span>
+        <span class="skill-tag">CWE</span>
+        <span class="skill-tag">OWASP Mobile Top 10</span>
+        <span class="skill-tag">Technical Writeups</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🔐</div>
+      <div class="skill-name">Security Concepts</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Phishing Simulation</span>
+        <span class="skill-tag">Encryption</span>
+        <span class="skill-tag">Weak PRNG</span>
+        <span class="skill-tag">API Security</span>
+        <span class="skill-tag">Session Management</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">💻</div>
+      <div class="skill-name">Languages &amp; Environments</div>
+      <div class="skill-tags">
+        
+        <span class="skill-tag">Bash</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">Kali Linux</span>
+        <span class="skill-tag">VirtualBox</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" style="padding-top:0">
+  <div class="section-label">// 03</div>
+  <h2 class="section-title">Projects &amp; Writeups</h2>
+  <div class="divider"></div>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <div>
+        <div class="project-type">Web Pentest</div>
+        <div class="project-name">SQL Injection &amp; Authentication Bypass</div>
+        <div class="project-desc">Identified and exploited SQL injection vulnerabilities in login endpoints on a web application. Tested manually and with SQLMap, documented findings with CVSS v3.1 scoring and remediation guidance.</div>
+        <div class="project-chips">
+          <span class="chip">SQLi</span><span class="chip">Burp Suite</span><span class="chip">SQLMap</span><span class="chip">OWASP A03</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <div class="project-type">Mobile Security</div>
+        <div class="project-name">Certificate Pinning Bypass — Android &amp; Flutter Apps</div>
+        <div class="project-desc">Bypassed SSL certificate pinning on Android applications (including Flutter-based apps) using Frida and Objection, enabling full traffic interception through Burp Suite for deeper API security analysis.</div>
+        <div class="project-chips">
+          <span class="chip">Frida</span><span class="chip">Objection</span><span class="chip">APKTool</span><span class="chip">Flutter</span><span class="chip">Android</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <div class="project-type">Social Engineering</div>
+        <div class="project-name">Phishing Simulation Campaign</div>
+        <div class="project-desc">Designed and executed a controlled phishing simulation to test user awareness and identify susceptibility within an organisation. Reported findings with risk levels and recommended security awareness training.</div>
+        <div class="project-chips">
+          <span class="chip">Phishing</span><span class="chip">Social Engineering</span><span class="chip">Security Awareness</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div>
+        <div class="project-type">Cryptography</div>
+        <div class="project-name">Encryption Implementation &amp; Analysis</div>
+        <div class="project-desc">Explored encryption techniques and weak PRNG vulnerabilities in OTP and token generation flows. Documented how predictable randomness can be exploited to bypass authentication mechanisms.</div>
+        <div class="project-chips">
+          <span class="chip">Encryption</span><span class="chip">Weak PRNG</span><span class="chip">OTP Bypass</span><span class="chip">Token Security</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTF & LABS -->
+<section id="ctf" style="padding-top:0">
+  <div class="section-label">// 04</div>
+  <h2 class="section-title">CTF &amp; Labs</h2>
+  <div class="divider"></div>
+
+  <div class="ctf-grid">
+    <div class="ctf-card">
+      <div class="ctf-platform">HackTheBox</div>
+      <div class="ctf-handle">@Ghostknight753</div>
+      <div class="ctf-rank">Active Player</div>
+    </div>
+    <div class="ctf-card">
+      <div class="ctf-platform">TryHackMe</div>
+      <div class="ctf-handle">@Ghostknight</div>
+      <div class="ctf-rank"><a href="https://tryhackme.com/p/Ghostknight" target="_blank" style="color:var(--teal); font-size:11px;">View Profile →</a></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:2.5rem; margin-bottom:1rem">Certifications</div>
+  <div class="certs-grid">
+    <div class="cert-card">
+      <div class="cert-name">Post Graduate in Cybersecurity</div>
+      <div class="cert-org">IIT Bengaluru · via Simplilearn</div>
+      <div class="cert-status">Completed</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-name">eJPT</div>
+      <div class="cert-org">eLearnSecurity / INE</div>
+      <div class="cert-status pursuing">Pursuing</div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-name">CEH</div>
+      <div class="cert-org">EC-Council</div>
+      <div class="cert-status pursuing">Pursuing</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding-top:0">
+  <div class="section-label">// 05</div>
+  <h2 class="section-title">Contact</h2>
+  <div class="divider"></div>
+
+  <div class="contact-grid">
+    <div>
+      <p class="contact-intro">I'm open to internship opportunities, junior pentester roles, and collaborations. If you're working on something interesting in security — or just want to connect — feel free to reach out.</p>
+
+      <div class="contact-links">
+        <a href="mailto:ananyan248@gmail.com" class="contact-link">
+          <div class="contact-icon">✉️</div>
+          ananyan248@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/ananyanacaharya" class="contact-link" target="_blank">
+          <div class="contact-icon">in</div>
+          linkedin.com/in/ananyanacaharya
+        </a>
+        <a href="https://github.com/Ananyagreenhat" class="contact-link" target="_blank">
+          <div class="contact-icon">GH</div>
+          github.com/Ananyagreenhat
+        </a>
+        <a href="https://tryhackme.com/p/Ghostknight" class="contact-link" target="_blank">
+          <div class="contact-icon">🚩</div>
+          TryHackMe — Ghostknight
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form-block">
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Hi Ananya, I'd like to..."></textarea>
+      </div>
+      <a href="mailto:ananyan248@gmail.com" class="btn-primary" style="display:inline-block; margin-top:0.5rem">Send Message</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Built by <span>Ananya N</span> · Bengaluru, India · All projects conducted in authorized environments only.</p>
+</footer>
+
+<script>
+  const text = 'whoami';
+  let i = 0;
+  const typed = document.getElementById('typed');
+  const cursor = document.getElementById('cursor');
+  const output = document.getElementById('output');
+  function type() {
+    if (i < text.length) { typed.textContent += text[i++]; setTimeout(type, 100); }
+    else { cursor.style.display = 'none'; setTimeout(() => { output.style.display = 'block'; }, 300); }
+  }
+  setTimeout(type, 600);
+</script>
+</body>
+</html>
